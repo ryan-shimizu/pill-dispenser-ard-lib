@@ -21,8 +21,8 @@ class PillDispenser{
         );
 
         // functions
-        void parse_serial_message(int message_data[]);
-        int begin_pill_sort();
+        int begin_pill_sort(int message_data[]);
+
     private:
         // internal components
         bool _days_selected[7];

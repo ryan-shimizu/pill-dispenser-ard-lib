@@ -29,29 +29,16 @@ PillDispenser::PillDispenser(
     this->_data_populated = false;
 }
 
-int PillDispenser::begin_pill_sort(){
+int PillDispenser::begin_pill_sort(int message_data[]){
     /*
      * Function that begins the pill sorting process.
      * Contains all logic for manipulating peripherals
      *  Args:
-     *      None
+     *      messageData(int*):      8-element int array containing all 8 bytes
+     *                              received from SerialHandler.
      *  Returns:
      *      errorCode(int):         Error codes //TODO: define
      */
 
     // TODO: Implement
-}
-
-void PillDispenser::parse_serial_message(int message_data[]){
-    /*
-     * Function that parses incoming serial message
-     * and sets internal variables to reflect the data.
-     *  Args:
-     *      message_data(int[]):    8-element array containing all bytes received
-     *                              from SerialHandler
-     *  Returns:
-     *      errorCode(int):         Error codes //TODO: define
-     */
-    // TODO: Implement (Ryan)
-    
 }
