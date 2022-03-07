@@ -1,0 +1,6 @@
+
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/c_cpp_properties.json
+.vscode/arduino.json
+src/pill-dispenser-arduino.ino
