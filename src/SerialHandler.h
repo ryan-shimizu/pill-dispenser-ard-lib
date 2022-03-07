@@ -6,16 +6,15 @@
 #ifndef SerialHandler_h
 #define SerialHandler_h
 #include "Arduino.h"
-
-#define DEBUG Serial
-#define NEXTION Serial1
-
 class SerialHandler{
     public:
+        // constructor
         SerialHandler();
+
+        // functions
         int* receive_message();
     private:
-        int _buffer [8];        // each message is 8 bytes long
+        // helper functions
         void _flush_buffer();
 };
 

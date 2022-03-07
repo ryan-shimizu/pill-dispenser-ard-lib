@@ -6,36 +6,32 @@
 #ifndef PillDispenser_h
 #define PillDispenser_h
 #include "Arduino.h"
-#include "SerialHandler.h"
+#include "LinearRail.h"
+#include "Hopper.h"
 
 class PillDispenser{
     public:
         PillDispenser(
         // constructor
-            uint8_t linearRailPin,
-            uint8_t linearRailServoPin,
-            uint8_t irSensorPin,
-            uint8_t hopperServoPin,
-            uint8_t hopperActuatorPin
+            uint8_t rail_pin,
+            uint8_t flap_pin,
+            uint8_t ir_in,
+            uint8_t disk_pin,
+            uint8_t actuator_pin
         );
-        void idle();
-        void parseSerialMessage(int messageData[]);
-        void sendDoneMessage();
-        void sendErrorMessage(int errorCode=0);
-        void begin_pill_sort();
+
+        // functions
+        void parse_serial_message(int message_data[]);
+        int begin_pill_sort();
     private:
         // internal components
-        int _beginSortByte;
-        int _daySelectByte;
-        int _dosageSelectByte1;
-        int _dosageSelectByte2;
+        bool _days_selected[7];
+        uint8_t _dosage_day_selection [7];
+        bool _data_populated;
 
         // physical components
-        LinearRail* _lr;
-        LinearRailServo* _lr_servo;
-        IRSensor* _ir_sen;
-        HopperControl* _hopper_ctrl;
-        HopperActuator* _hopper_act;
+        LinearRail _lr;
+        Hopper _hop;
 
 };
 
