@@ -2,7 +2,7 @@
 #define DEBUG Serial
 
 const int FLAPOPENTIME = 500;
-const int DAYSTEP = 140;
+const int DAYSTEP = 140;   //test
 
 
 
