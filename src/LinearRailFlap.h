@@ -8,20 +8,15 @@ class LinearRailFlap{
         // constructor
         LinearRailFlap(uint8_t flap_pin);
 
-
-
-
-
         // functions
         void openServo();
         void closeServo();
+
     private:
         // pinouts
         uint8_t _flap_pin;
 
 	Servo _flap;
-
-
 };
 
 #endif

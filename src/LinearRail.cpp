@@ -88,10 +88,8 @@ void LinearRail::_move_stepper(int daySteps, bool direction){
 const int delay= 400;
  int count = 0;
  digitalWrite(_rail_dir_pin,direction);
+
   // put your main code here, to run repeatedly:
-  
- 
-  
 
        while (count < daySteps ){    // SPIN if UNbroken
         digitalWrite(_rail_step_pin, HIGH);
