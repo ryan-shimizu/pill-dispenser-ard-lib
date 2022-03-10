@@ -23,24 +23,11 @@ void Hopper::transfer_pills(uint8_t num){
     // TODO: Implement
 
 
-
-while (!_ir.check_pill_count(num)){
+while (!_ir.check_pill_count(num)){		// i think this will work for  function
 
 
 _hd.rotate_disk();
 				}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

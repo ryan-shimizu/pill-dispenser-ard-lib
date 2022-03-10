@@ -24,11 +24,10 @@ class LinearRail{
         void _drop_pill();
 
         // pinouts
-        uint8_t _flap_pin;   //might not need this if using pin grabbing function
+        uint8_t _flap_pin;    //might not need this if using pin grabbing function
         uint8_t _rail_step_pin;
 	uint8_t _rail_dir_pin;
 	
-
 
         // physical components
         LinearRailFlap _lr_flap;
