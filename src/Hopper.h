@@ -15,7 +15,12 @@
 class Hopper{
     public:
         // constructor
-        Hopper(uint8_t disk_pin, uint8_t actuator_pin, uint8_t ir_pin);
+        Hopper(
+            uint8_t disk_pin, 
+            uint8_t disk_dir_pin, 
+            uint8_t actuator_pin,
+            uint8_t actuator_dir_pin,
+            uint8_t ir_pin);
 
         // functions
         void transfer_pills(uint8_t num);

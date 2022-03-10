@@ -11,10 +11,14 @@ PillDispenser::PillDispenser(
             uint8_t flap_pin,
             uint8_t ir_pin,
             uint8_t disk_pin,
-            uint8_t actuator_pin)
+            uint8_t disk_dir_pin,
+            uint8_t actuator_pin,
+            uint8_t actuator_dir_pin)
             : _hop(
                 disk_pin=disk_pin,
+                disk_dir_pin=disk_dir_pin,
                 actuator_pin=actuator_pin,
+                actuator_dir_pin=actuator_dir_pin,
                 ir_pin=ir_pin),
               _lr(
                 flap_pin=flap_pin,
