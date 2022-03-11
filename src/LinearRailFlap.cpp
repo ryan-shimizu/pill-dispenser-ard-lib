@@ -8,6 +8,7 @@ LinearRailFlap::LinearRailFlap(uint8_t _flap_pin){
 
     // TODO: setup servos here
     _flap.attach(_flap_pin);
+    _flap.write(0);
 
  
     // report to debug

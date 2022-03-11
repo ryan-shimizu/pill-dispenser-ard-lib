@@ -19,7 +19,7 @@ LinearRail::LinearRail(uint8_t flap_pin, uint8_t rail_dir_pin, uint8_t rail_step
 
     pinMode(_rail_dir_pin, OUTPUT);
     pinMode(_rail_step_pin, OUTPUT);
-    digitalWrite(_rail_dir_pin,LOW); //LOW = CCW HIGH = CW
+    //digitalWrite(_rail_dir_pin,LOW); //LOW = CCW HIGH = CW
 
 
     DEBUG.println("LinearRail.cpp: LinearRail object initialized.");
@@ -43,8 +43,13 @@ void LinearRail::dispense_by_day(uint8_t day){
     int movedSteps = day*DAYSTEP;
 
     this->_move_stepper(movedSteps, true);  // move forward
+    DEBUG.println("LinearRail.cpp: Moving forward...");
+    delay(400);
     this->_drop_pill();
+    delay(400);
     this->_move_stepper(movedSteps, false); // move back to origin
+    DEBUG.println("LinearRail.cpp: Moving back to origin...");
+    
 
     // report to debug
     DEBUG.print("LinearRail.cpp: Finished dispensing to day ");
@@ -83,7 +88,13 @@ void LinearRail::_move_stepper(int daySteps, bool direction){
 
     const int delay= 400;
     int count = 0;
-    digitalWrite(_rail_dir_pin,direction);
+    if(direction){
+    digitalWrite(_rail_dir_pin,LOW);
+    }
+    else{
+    digitalWrite(_rail_dir_pin,HIGH);
+    }
+    //digitalWrite(_rail_dir_pin,direction);
 
     while (count < daySteps ){    // SPIN if UNbroken
         digitalWrite(_rail_step_pin, HIGH);
