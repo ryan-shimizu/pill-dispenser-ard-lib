@@ -5,6 +5,7 @@
 IRSensor::IRSensor(uint8_t ir_pin){
     this->_ir_pin = ir_pin;
     pinMode(ir_pin, INPUT_PULLUP);
+    digitalWrite(ir_pin, HIGH);
     attachInterrupt(digitalPinToInterrupt(ir_pin), increment_g_pill_count, FALLING);
 
     DEBUG.println("IRSensor.cpp: Checking global variable...");
@@ -31,6 +32,8 @@ bool IRSensor::check_pill_count(uint8_t count){
     DEBUG.print("IRSensor.cpp: Input: ");
     DEBUG.print(count);
     DEBUG.println();
+    DEBUG.println("IRSensor.cpp: IR Sensor state: ");
+    DEBUG.println(digitalRead(_ir_pin));
     //return(this->_pill_count >= count);
     return(g_pill_count >= count);
 }
