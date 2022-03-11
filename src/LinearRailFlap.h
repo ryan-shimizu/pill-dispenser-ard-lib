@@ -1,7 +1,7 @@
 #ifndef LinearRailFlap_h
 #define LinearRailFlap_h
 #include "Arduino.h"
-#include <Servo.h>
+#include "Servo.h"
 
 class LinearRailFlap{
     public:
@@ -15,8 +15,7 @@ class LinearRailFlap{
     private:
         // pinouts
         uint8_t _flap_pin;
-
-	Servo _flap;
+        Servo _flap;
 };
 
 #endif

@@ -1,15 +1,13 @@
 #include "Arduino.h"
 #include "LinearRailFlap.h"
 #define DEBUG Serial
+#define DELAYCONST 1000
 
 LinearRailFlap::LinearRailFlap(uint8_t _flap_pin){
     this->_flap_pin = _flap_pin;
 
     // TODO: setup servos here
-
-_flap.attach(_flap_pin)
-
-Serial.begin(9600);
+    _flap.attach(_flap_pin);
 
  
     // report to debug
@@ -29,12 +27,10 @@ void LinearRailFlap::openServo(){
 
     // TODO: Implement
 
-//_flap.write(0);     //might not need this
-//delay(1000);
-_flap.write(90);	//open flap
-delay(1000);
-
-
+    //_flap.write(0);     //might not need this
+    //delay(1000);
+    _flap.write(90);	//open flap
+    delay(DELAYCONST);
     DEBUG.println("LinearRailFlap.cpp: Flap opened...");
 };
 
@@ -49,8 +45,8 @@ void LinearRailFlap::closeServo(){
      */
 
 
-_flap.write(0);   //closing flap
-delay(1000);
+    _flap.write(0);   //closing flap
+    delay(DELAYCONST);
 
     DEBUG.println("LinearRailFlap.cpp: Flap closed...");
 }

@@ -7,6 +7,7 @@
 #define LinearRail_h
 #include "Arduino.h"
 #include "LinearRailFlap.h"
+#include "Stepper.h"
 
 class LinearRail{
     public:
@@ -26,11 +27,12 @@ class LinearRail{
         // pinouts
         uint8_t _flap_pin;    //might not need this if using pin grabbing function
         uint8_t _rail_step_pin;
-	uint8_t _rail_dir_pin;
+	    uint8_t _rail_dir_pin;
 	
 
         // physical components
         LinearRailFlap _lr_flap;
+        //Stepper _rail;
 };
 
 #endif

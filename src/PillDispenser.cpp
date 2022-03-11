@@ -7,7 +7,8 @@
 #define NUM_DAYS 7
 
 PillDispenser::PillDispenser(
-            uint8_t rail_pin,
+            uint8_t rail_step_pin,
+            uint8_t rail_dir_pin,
             uint8_t flap_pin,
             uint8_t ir_pin,
             uint8_t disk_pin,
@@ -18,7 +19,8 @@ PillDispenser::PillDispenser(
                 ir_pin=ir_pin),
               _lr(
                 flap_pin=flap_pin,
-                rail_pin=rail_pin
+                rail_step_pin=rail_step_pin,
+                rail_dir_pin=rail_dir_pin
               )
 {
     // fill values to 0

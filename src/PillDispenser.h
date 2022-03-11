@@ -13,7 +13,8 @@ class PillDispenser{
     public:
         PillDispenser(
         // constructor
-            uint8_t rail_pin,
+            uint8_t rail_step_pin,
+            uint8_t rail_dir_pin,
             uint8_t flap_pin,
             uint8_t ir_in,
             uint8_t disk_pin,
