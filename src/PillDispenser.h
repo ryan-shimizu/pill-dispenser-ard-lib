@@ -18,7 +18,9 @@ class PillDispenser{
             uint8_t flap_pin,
             uint8_t ir_in,
             uint8_t disk_pin,
-            uint8_t actuator_pin
+            uint8_t disk_dir_pin,
+            uint8_t actuator_pin,
+            uint8_t actuator_dir_pin
         );
 
         // functions

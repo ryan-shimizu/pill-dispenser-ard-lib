@@ -1,11 +1,15 @@
 #include "IRSensor.h"
+#include "globals.h"
 #define DEBUG Serial
 
 IRSensor::IRSensor(uint8_t ir_pin){
     this->_ir_pin = ir_pin;
-    this->_pill_count = 0;
-    // TODO: initialize the rest of the ir sensor
+    pinMode(ir_pin, INPUT_PULLUP);
+    digitalWrite(ir_pin, HIGH);
+    attachInterrupt(digitalPinToInterrupt(ir_pin), increment_g_pill_count, FALLING);
 
+    DEBUG.println("IRSensor.cpp: Checking global variable...");
+    DEBUG.println(g_pill_count);
     DEBUG.println("IRSensor.cpp: IRSensor object initialized.");
 };
 
@@ -22,10 +26,26 @@ bool IRSensor::check_pill_count(uint8_t count){
      *                          False->count does not exceed internal count  
      */
     DEBUG.print("IRSensor.cpp: Check called. Internal: ");
-    DEBUG.print(this->_pill_count);
+    //DEBUG.print(this->_pill_count);
+    DEBUG.print(g_pill_count);
     DEBUG.println();
     DEBUG.print("IRSensor.cpp: Input: ");
     DEBUG.print(count);
     DEBUG.println();
-    return(this->_pill_count >= count);
+    DEBUG.println("IRSensor.cpp: IR Sensor state: ");
+    DEBUG.println(digitalRead(_ir_pin));
+    //return(this->_pill_count >= count);
+    return(g_pill_count >= count);
 }
+
+void IRSensor::clear_count(){
+    /*
+     * Function that clears global pill count.
+     *  Args:
+     *      None
+     *  Returns:
+     *      None 
+     */
+    g_pill_count = 0;
+}
+
