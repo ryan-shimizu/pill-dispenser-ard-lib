@@ -42,12 +42,12 @@ void LinearRail::dispense_by_day(uint8_t day){
     // calculate steps required to move to requested day
     int movedSteps = day*DAYSTEP;
 
-    this->_move_stepper(movedSteps, true);  // move forward
+    this->_move_stepper(movedSteps, false);  // move forward
     DEBUG.println("LinearRail.cpp: Moving forward...");
     delay(400);
     this->_drop_pill();
     delay(400);
-    this->_move_stepper(movedSteps, false); // move back to origin
+    this->_move_stepper(movedSteps, true); // move back to origin
     DEBUG.println("LinearRail.cpp: Moving back to origin...");
     
 
