@@ -8,6 +8,7 @@
 #include "Arduino.h"
 #include "LinearRail.h"
 #include "Hopper.h"
+#include "Speaker.h"
 
 class PillDispenser{
     public:
@@ -20,7 +21,8 @@ class PillDispenser{
             uint8_t disk_pin,
             uint8_t disk_dir_pin,
             uint8_t actuator_pin,
-            uint8_t actuator_dir_pin
+            uint8_t actuator_dir_pin,
+            uint8_t speaker_pin
         );
 
         // functions
@@ -35,6 +37,7 @@ class PillDispenser{
         // physical components
         LinearRail _lr;
         Hopper _hop;
+        Speaker _speaker;
 
 };
 

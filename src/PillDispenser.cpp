@@ -14,7 +14,8 @@ PillDispenser::PillDispenser(
             uint8_t disk_pin,
             uint8_t disk_dir_pin,
             uint8_t actuator_pin,
-            uint8_t actuator_dir_pin)
+            uint8_t actuator_dir_pin,
+            uint8_t speaker_pin)
             : _hop(
                 disk_pin=disk_pin,
                 disk_dir_pin=disk_dir_pin,
@@ -25,6 +26,9 @@ PillDispenser::PillDispenser(
                 flap_pin=flap_pin,
                 rail_step_pin=rail_step_pin,
                 rail_dir_pin=rail_dir_pin
+              ),
+              _speaker(
+                  speaker_pin=speaker_pin
               )
 {
     // fill values to 0
