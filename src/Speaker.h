@@ -6,7 +6,7 @@
 
 #ifndef Speaker_h
 #define Speaker_h
-#include "Arduino.h"
+//#include "Arduino.h"
 
 class Speaker{
     public:
@@ -15,7 +15,7 @@ class Speaker{
 
         // functions
         void play_tune();
-        
+
     private:
         // pinouts
         uint8_t _speaker_pin;
