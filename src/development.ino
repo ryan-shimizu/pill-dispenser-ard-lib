@@ -1,6 +1,9 @@
 #include "PillDispenser.h"
 #include "SerialHandler.h"
 #include "Speaker.h"
+// #include "PillDispenser.h"
+// #include "SerialHandler.h"
+#include "Hopper.h"
 #define DEBUG Serial
 
 int* message;
@@ -10,8 +13,9 @@ void setup(){
     // for(int idx = 0; idx<8; idx++){
     //     DEBUG.println(message[idx], HEX);
     // }
-    Speaker sp(uint8_t(5));
-    sp.play_tune();
+    Serial.begin(9600);
+    Hopper hop(uint8_t(12), uint8_t(13), uint8_t(8), uint8_t(9), uint8_t(19));
+    hop.transfer_pills(4);
 }   
 
 void loop(){

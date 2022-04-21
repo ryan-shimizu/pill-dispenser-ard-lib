@@ -79,14 +79,12 @@ void LinearRail::_move_stepper(int daySteps, bool direction){
      * positioned over the correct day.
      *  Args:
      *      daySteps(int):      Steps to move the stepper motor
-     *      direction(bool):    true = forward, false = backward
+     *      direction(bool):    true = backward, false = forward
      *  Returns:
      *      None
      */
 
-    // TODO: Implement
-
-    const int delay= 400;
+    const int delay = 400;
     int count = 0;
     if(direction){
     digitalWrite(_rail_dir_pin,LOW);

@@ -5,14 +5,9 @@
 
 LinearRailFlap::LinearRailFlap(uint8_t _flap_pin){
     this->_flap_pin = _flap_pin;
-
-    // TODO: setup servos here
     _flap.attach(_flap_pin);
-    _flap.write(0);
-
- 
+    _flap.write(0); 
     // report to debug
-
     DEBUG.println("LinearRailFlap.cpp: LinearRailFlap object initialized.");
 };
 
@@ -25,8 +20,6 @@ void LinearRailFlap::openServo(){
      *  Returns:
      *      None
      */
-
-    // TODO: Implement
 
     //_flap.write(0);     //might not need this
     //delay(1000);

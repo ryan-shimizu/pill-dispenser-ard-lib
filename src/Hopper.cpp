@@ -1,4 +1,5 @@
 #include "Hopper.h"
+#include "globals.h"
 #define DEBUG Serial
 #define STEPSIZE 50
 #define STEP_PER_REV 200
@@ -24,7 +25,6 @@ void Hopper::transfer_pills(uint8_t num){
      *      None
      */
 
-    // TODO: Implement
     DEBUG.print("Hopper.cpp: Beginning transfer of pills of size ");
     DEBUG.print(num);
     DEBUG.println();
@@ -33,24 +33,31 @@ void Hopper::transfer_pills(uint8_t num){
     _ir.clear_count();
 
     // actuator calculations
-    // int full_rev = STEP_PER_REV/STEPSIZE;
-    // int temp = 0;
-    // uint8_t actuator_level = 0;         // start at level 0
-    // uint8_t prev_count = 0;
-    // NOTE: ignoring actuator mechanism for this iteration
+    int full_rev = STEP_PER_REV;
+    int temp = 0;
+    uint8_t actuator_level = 0;         // start at level 0
+    uint8_t prev_count = 0;
+
     // NOTE: may be jittery depending on stepsize and overhead (test this)
     while(!_ir.check_pill_count(num)){
         _hd.rotate_disk(STEPSIZE);
         delay(100);     // delete later?
-        // // actuator section
-        // temp += STEPSIZE;
-        // if(temp>=full_rev){
-        //     // if here,
-        // }
+        temp++;
+        if(temp>=full_rev){
+            if(g_pill_count==prev_count){
+                // pills did not pass thru beam since last rev
+                // adjust level
+                actuator_level++;
+                this->_ha.set_level(actuator_level);
+            }
+            prev_count = g_pill_count;
+            temp = 0;
+        }
     }
 
     // clear again for next call
     _ir.clear_count();
+    _ha.reset_arm();
     DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");
 }
 

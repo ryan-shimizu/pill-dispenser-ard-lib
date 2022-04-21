@@ -7,3 +7,5 @@ src/pill-dispenser-arduino.ino
 src/.vscode/c_cpp_properties.json
 src/development.ino
 src/development.ino
+src/.vscode/arduino.json
+*.ino

@@ -15,7 +15,9 @@ PillDispenser::PillDispenser(
             uint8_t disk_dir_pin,
             uint8_t actuator_pin,
             uint8_t actuator_dir_pin,
-            uint8_t speaker_pin)
+            uint8_t speaker_pin,
+            uint8_t rail_limit_switch,
+            uint8_t actuator_limit_switch)
             : _hop(
                 disk_pin=disk_pin,
                 disk_dir_pin=disk_dir_pin,

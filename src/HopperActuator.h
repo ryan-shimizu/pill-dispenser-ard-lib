@@ -14,11 +14,18 @@ class HopperActuator{
         HopperActuator(uint8_t actuator_pin, uint8_t actuator_dir_pin);
 
         // functions
-        // TODO: What functions do we need??
+        void set_level(uint8_t level);
+        void reset_arm();
     private:
+        // functions 
+        void _move_stepper(long long int steps, bool dir);
+        
         // pinouts
         uint8_t _actuator_pin;
         uint8_t _actuator_dir_pin;
+
+        // data members
+        uint8_t curr_level;
 };
 
 #endif
