@@ -5,6 +5,7 @@
 
 #include "PillDispenser.h"
 #define NUM_DAYS 7
+#define DEBUG Serial1
 
 PillDispenser::PillDispenser(
             uint8_t rail_step_pin,
@@ -49,8 +50,59 @@ int PillDispenser::begin_pill_sort(int message_data[]){
      *      messageData(int*):      8-element int array containing all 8 bytes
      *                              received from SerialHandler.
      *  Returns:
-     *      errorCode(int):         Error codes //TODO: define
+     *      errorCode(int):         Error codes
+     *          1: Header byte invalid
      */
 
-    // TODO: Implement
+    
+    // verify that header is as expected
+    if(message_data[0] != 0x23){
+        // header byte is wrong
+        return 1;
+    }
+
+    // begin parsing day select data
+    int day_select_byte = message_data[2]>>1;   // dont care about last bit
+    bool day_select_data[NUM_DAYS];
+    for(uint8_t idx=0; idx<NUM_DAYS; idx++){
+        day_select_data[idx] = (((day_select_byte>>idx) & 0b1) == 0b1) ? true : false;
+    }
+
+    // debug shit
+    for(uint8_t idx=0; idx<NUM_DAYS; idx++){
+        if(day_select_data[idx]){
+            String debug = "PillDispenser.cpp: Index " + String(idx) + " day select parsed true.";
+            DEBUG.println(debug);
+        }
+        else{
+            String debug = "PillDispenser.cpp: Index " + String(idx) + " day select parsed false.";
+            DEBUG.println(debug); 
+        }
+    }
+
+    // begin parsing dosage select data
+    int dos_select_byte1 = message_data[3];
+    int dos_select_byte2 = message_data[4];
+
+    uint8_t dos_select1[4];
+    uint8_t dos_select2[4];
+
+    //dos_select_byte1
+    for(uint8_t idx=0; idx<4; idx++){
+        // looping 4 times bc dos_select_byte1 has data for 4 days
+        int temp = dos_select_byte1>>(idx*2) & 0b11;
+        uint8_t rolling_idx = 3 - idx;
+        dos_select1[rolling_idx] = uint8_t(temp);
+    }
+
+    // dos_select_byte2
+    for(uint8_t idx=1; idx<4; idx++){
+        // looping 4 times bc dos_select_byte1 has data for 4 days
+        int temp = dos_select_byte2>>(idx*2) & 0b11;
+        uint8_t rolling_idx = 3 - idx;
+        dos_select2[rolling_idx] = uint8_t(temp);
+    }
+
 }
+
+

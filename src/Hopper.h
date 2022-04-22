@@ -25,6 +25,7 @@ class Hopper{
         // functions
         void transfer_pills(uint8_t num);
         void set_funnel_size(uint8_t steps);
+        void reset_arm();
     private:
         // components
         HopperActuator _ha;

@@ -17,7 +17,7 @@ void HopperActuator::reset_arm(){
     // Resets arm to default state
     DEBUG.println("HopperActuator.cpp: Resetting arm...");
     long long int RESETSTEPS = LEVELSTEP*5;
-    this->_move_stepper(RESETSTEPS, false);
+    this->_move_stepper(RESETSTEPS, true);
 }
 
 void HopperActuator::set_level(uint8_t level){
@@ -34,7 +34,7 @@ void HopperActuator::set_level(uint8_t level){
     DEBUG.print(level);
     long long int delta = int(level) - int(curr_level);
     // use delta to determine direction to move stepper
-    bool direction = delta<=0 ? false : true;
+    bool direction = delta<=0 ? true : false;
     this->_move_stepper(delta*LEVELSTEP, direction);
     curr_level = level;
 }
@@ -50,7 +50,7 @@ void HopperActuator::_move_stepper(long long int steps, bool dir){
      *      None
      */
     
-    const int delay= 100;
+    const int delay= 500;
     long long int count = 0;
     if(dir){
     digitalWrite(_actuator_dir_pin,HIGH);

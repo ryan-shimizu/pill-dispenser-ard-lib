@@ -15,12 +15,12 @@ class HopperDisk{
         HopperDisk(uint8_t disk_pin, uint8_t disk_dir_pin);
 
         // functions
-        void rotate_disk(uint8_t steps);
+        void rotate_disk(uint8_t steps, bool dir);
     private:
         // pinouts
         uint8_t _disk_pin;
         uint8_t _disk_dir_pin;
-        Stepper _disk;
+        // Stepper _disk;
 };
 
 #endif

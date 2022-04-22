@@ -1,8 +1,8 @@
 #include "Hopper.h"
 #include "globals.h"
 #define DEBUG Serial
-#define STEPSIZE 50
-#define STEP_PER_REV 200
+#define STEPSIZE 400
+#define STEP_PER_REV 10
 
 Hopper::Hopper(uint8_t disk_pin, uint8_t disk_dir_pin, uint8_t actuator_pin, uint8_t actuator_dir_pin, uint8_t ir_pin)
     : _ha(actuator_pin=actuator_pin, actuator_dir_pin=actuator_dir_pin), 
@@ -39,8 +39,8 @@ void Hopper::transfer_pills(uint8_t num){
     uint8_t prev_count = 0;
 
     // NOTE: may be jittery depending on stepsize and overhead (test this)
+    _hd.rotate_disk(200, true);
     while(!_ir.check_pill_count(num)){
-        _hd.rotate_disk(STEPSIZE);
         delay(100);     // delete later?
         temp++;
         if(temp>=full_rev){
@@ -48,12 +48,16 @@ void Hopper::transfer_pills(uint8_t num){
                 // pills did not pass thru beam since last rev
                 // adjust level
                 actuator_level++;
-                this->_ha.set_level(actuator_level);
+                if(actuator_level <= 5){
+                    this->_ha.set_level(actuator_level);
+                }
             }
             prev_count = g_pill_count;
             temp = 0;
+            DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
         }
     }
+    _hd.rotate_disk(0, true);
 
     // clear again for next call
     _ir.clear_count();
@@ -74,4 +78,8 @@ void Hopper::set_funnel_size(uint8_t num){
     DEBUG.print("Hopper.cpp: Setting funnel size to ");
     DEBUG.print(num);
     DEBUG.println();
+}
+
+void Hopper::reset_arm(){
+    _ha.reset_arm();
 }
