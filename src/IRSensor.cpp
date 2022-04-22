@@ -29,11 +29,8 @@ bool IRSensor::check_pill_count(uint8_t count){
     //DEBUG.print(this->_pill_count);
     DEBUG.print(g_pill_count);
     DEBUG.println();
-    DEBUG.print("IRSensor.cpp: Input: ");
-    DEBUG.print(count);
-    DEBUG.println();
-    DEBUG.println("IRSensor.cpp: IR Sensor state: ");
-    DEBUG.println(digitalRead(_ir_pin));
+    // DEBUG.println("IRSensor.cpp: IR Sensor state: ");
+    // DEBUG.println(digitalRead(_ir_pin));
     //return(this->_pill_count >= count);
     return(g_pill_count >= count);
 }

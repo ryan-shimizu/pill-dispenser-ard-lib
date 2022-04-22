@@ -2,7 +2,8 @@
 #include "globals.h"
 #define DEBUG Serial
 #define STEPSIZE 400
-#define STEP_PER_REV 10
+#define STEP_PER_REV 100
+#define DUTY_CYCLE 254
 
 Hopper::Hopper(uint8_t disk_pin, uint8_t disk_dir_pin, uint8_t actuator_pin, uint8_t actuator_dir_pin, uint8_t ir_pin)
     : _ha(actuator_pin=actuator_pin, actuator_dir_pin=actuator_dir_pin), 
@@ -39,18 +40,20 @@ void Hopper::transfer_pills(uint8_t num){
     uint8_t prev_count = 0;
 
     // NOTE: may be jittery depending on stepsize and overhead (test this)
-    _hd.rotate_disk(200, true);
+    _hd.rotate_disk(DUTY_CYCLE, true);
     while(!_ir.check_pill_count(num)){
-        delay(100);     // delete later?
+        //delay(100);     // delete later?
         temp++;
         if(temp>=full_rev){
             if(g_pill_count==prev_count){
                 // pills did not pass thru beam since last rev
                 // adjust level
+                _hd.rotate_disk(0, true);
                 actuator_level++;
                 if(actuator_level <= 5){
                     this->_ha.set_level(actuator_level);
                 }
+                _hd.rotate_disk(DUTY_CYCLE, true);
             }
             prev_count = g_pill_count;
             temp = 0;

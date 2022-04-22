@@ -14,7 +14,7 @@ HopperDisk::HopperDisk(uint8_t disk_pin, uint8_t disk_dir_pin)
     //this->_disk.setSpeed(SPEED);
 };
 
-void HopperDisk::rotate_disk(uint8_t duty_cycle, bool dir){
+void HopperDisk::rotate_disk(int duty_cycle, bool dir){
     /*
      * Function that rotates disk by a given number of steps
      *  Args:

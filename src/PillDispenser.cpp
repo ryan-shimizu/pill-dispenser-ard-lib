@@ -60,6 +60,7 @@ int PillDispenser::begin_pill_sort(int message_data[]){
         // header byte is wrong
         return 1;
     }
+    DEBUG.println("PillDispenser.cpp: Header byte OK.");
 
     // begin parsing day select data
     int day_select_byte = message_data[2]>>1;   // dont care about last bit
@@ -69,13 +70,22 @@ int PillDispenser::begin_pill_sort(int message_data[]){
     }
 
     // debug shit
+    String dayReference[7] = {
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    };
     for(uint8_t idx=0; idx<NUM_DAYS; idx++){
         if(day_select_data[idx]){
-            String debug = "PillDispenser.cpp: Index " + String(idx) + " day select parsed true.";
+            String debug = "PillDispenser.cpp: " + dayReference[idx] + " parsed true.";
             DEBUG.println(debug);
         }
         else{
-            String debug = "PillDispenser.cpp: Index " + String(idx) + " day select parsed false.";
+            String debug = "PillDispenser.cpp: " + dayReference[idx] + " parsed false.";
             DEBUG.println(debug); 
         }
     }

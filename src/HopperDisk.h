@@ -15,7 +15,7 @@ class HopperDisk{
         HopperDisk(uint8_t disk_pin, uint8_t disk_dir_pin);
 
         // functions
-        void rotate_disk(uint8_t steps, bool dir);
+        void rotate_disk(int duty_cycle, bool dir);
     private:
         // pinouts
         uint8_t _disk_pin;
