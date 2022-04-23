@@ -5,7 +5,7 @@
 
 #include "PillDispenser.h"
 #define NUM_DAYS 7
-#define DEBUG Serial1
+#define DEBUG Serial
 
 PillDispenser::PillDispenser(
             uint8_t rail_step_pin,
@@ -27,8 +27,8 @@ PillDispenser::PillDispenser(
                 ir_pin=ir_pin),
               _lr(
                 flap_pin=flap_pin,
-                rail_step_pin=rail_step_pin,
-                rail_dir_pin=rail_dir_pin
+                rail_dir_pin=rail_dir_pin,
+                rail_step_pin=rail_step_pin
               ),
               _speaker(
                   speaker_pin=speaker_pin
@@ -65,7 +65,7 @@ int PillDispenser::begin_pill_sort(int message_data[]){
     int day_select_byte = message_data[2]>>1;   // dont care about last bit
     bool day_select_data[NUM_DAYS];
     for(uint8_t idx=0; idx<NUM_DAYS; idx++){
-        day_select_data[idx] = (((day_select_byte>>idx) & 0b1) == 0b1) ? true : false;
+        day_select_data[6-idx] = (((day_select_byte>>idx) & 0b1) == 0b1) ? true : false;
     }
 
     // debug shit
@@ -92,17 +92,45 @@ int PillDispenser::begin_pill_sort(int message_data[]){
         // looping 4 times bc dos_select_byte1 has data for 4 days
         int temp = dos_select_byte1>>(idx*2) & 0b11;
         uint8_t rolling_idx = 3 - idx;
-        dos_select1[rolling_idx] = uint8_t(temp);
+        dos_select1[rolling_idx] = uint8_t(temp+1);
     }
 
     // dos_select_byte2
+    dos_select_byte2 = dos_select_byte2>>2; // dont care about lsb
     for(uint8_t idx=1; idx<4; idx++){
         // looping 4 times bc dos_select_byte1 has data for 4 days
         int temp = dos_select_byte2>>(idx*2) & 0b11;
         uint8_t rolling_idx = 3 - idx;
-        dos_select2[rolling_idx] = uint8_t(temp);
+        dos_select2[rolling_idx] = uint8_t(temp+1);
     }
 
+    // loop thru day select and if select is on, begin sort
+    for(uint8_t idx=0; idx<NUM_DAYS; idx++){
+        uint8_t dosage;
+        if(day_select_data[idx]){
+            // look at corresponding dosage
+            if(idx<4){
+                // look at dos_select_byte1
+                dosage = dos_select1[idx];
+            }
+            else{
+                // look at dos_select_byte2
+                dosage = dos_select2[idx-4];
+            }
+            String debug = "PillDispenser.cpp: " + dayReference[idx] + "needs " + String(dosage) + " pills...";
+            DEBUG.println(debug);
+            // get required pills from hopper
+            _hop.transfer_pills(dosage);
+
+            DEBUG.println("PillDispenser.cpp: Hopper transfer complete, beginning linear rail transfer...");
+
+            delay(10);  // comment out later?
+
+            // transfer from linear rail
+            _lr.dispense_by_day(idx);
+            _speaker.play_tune();
+        }
+    }
 }
 
 

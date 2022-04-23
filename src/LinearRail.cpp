@@ -3,7 +3,7 @@
 #define DEBUG Serial
 
 const int FLAPOPENTIME = 500;
-const int DAYSTEP = 140;
+const int DAYSTEP = 170;
 const int STEPSIZE = 200;
 
 LinearRail::LinearRail(uint8_t flap_pin, uint8_t rail_dir_pin, uint8_t rail_step_pin )
@@ -40,7 +40,7 @@ void LinearRail::dispense_by_day(uint8_t day){
     DEBUG.print("\n");
 
     // calculate steps required to move to requested day
-    int movedSteps = day*DAYSTEP;
+    long long unsigned int movedSteps = day*DAYSTEP;
 
     this->_move_stepper(movedSteps, false);  // move forward
     DEBUG.println("LinearRail.cpp: Moving forward...");
@@ -73,7 +73,7 @@ void LinearRail::_drop_pill(){
     this->_lr_flap.closeServo();
 };
 
-void LinearRail::_move_stepper(int daySteps, bool direction){
+void LinearRail::_move_stepper(long long unsigned int daySteps, bool direction){
     /*
      * Function that drops the pill once the Linear Rail is
      * positioned over the correct day.

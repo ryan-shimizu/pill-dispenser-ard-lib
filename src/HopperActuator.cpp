@@ -1,7 +1,7 @@
 #include "HopperActuator.h"
 #define DEBUG Serial
 
-long long int LEVELSTEP = 4000;
+long long int LEVELSTEP = 2000;
 
 HopperActuator::HopperActuator(uint8_t actuator_pin, uint8_t actuator_dir_pin){
     this->_actuator_pin = actuator_pin;
@@ -50,7 +50,7 @@ void HopperActuator::_move_stepper(long long int steps, bool dir){
      *      None
      */
     
-    const int delay= 500;
+    const int delay= 200;
     long long int count = 0;
     if(dir){
     digitalWrite(_actuator_dir_pin,HIGH);

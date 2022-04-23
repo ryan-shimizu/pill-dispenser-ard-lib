@@ -8,7 +8,7 @@
 #include "Arduino.h"
 
 #define DEBUG Serial
-#define NEXTION Serial1
+#define NEXTION Serial2
 #define BUF_SIZE 8
 #define BAUD 9600
 

@@ -21,7 +21,7 @@ class LinearRail{
 
     private:
         // helper functions
-        void _move_stepper(int movedSteps, bool direction);
+        void _move_stepper(long long unsigned int movedSteps, bool direction);
         void _drop_pill();
 
         // pinouts

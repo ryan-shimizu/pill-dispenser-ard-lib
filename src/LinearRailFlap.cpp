@@ -6,7 +6,7 @@
 LinearRailFlap::LinearRailFlap(uint8_t _flap_pin){
     this->_flap_pin = _flap_pin;
     _flap.attach(_flap_pin);
-    _flap.write(0); 
+    //_flap.write(0); 
     // report to debug
     DEBUG.println("LinearRailFlap.cpp: LinearRailFlap object initialized.");
 };

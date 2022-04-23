@@ -57,6 +57,7 @@ void Hopper::transfer_pills(uint8_t num){
             DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
         }
     }
+    delay(80);
     _hd.rotate_disk(0, true);
 
     // clear again for next call
