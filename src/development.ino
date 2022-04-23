@@ -9,20 +9,6 @@
 #define DEBUG Serial
 
 void setup(){
-<<<<<<< Updated upstream
-    // SerialHandler sh;
-    // message = sh.receive_message();
-    // for(int idx = 0; idx<8; idx++){
-    //     DEBUG.println(message[idx], HEX);
-    // }
-    Serial.begin(9600);
-
-    Hopper hop(uint8_t(12), uint8_t(13), uint8_t(8), uint8_t(9), uint8_t(19));
-    // hop.reset_arm();
-    // hop.reset_arm();
-    hop.transfer_pills(4);
-    Serial.println("Main finished...");
-=======
 
     // Serial.begin(9600);
     // LinearRail lr(uint8_t(6), uint8_t(11), uint8_t(10));
@@ -72,14 +58,15 @@ void setup(){
         message = sh.receive_message();
         for(uint8_t idx = 0; idx<8; idx++){
             String debug = "main.ino: Serial message index " + String(idx) + " with data ";
+            DEBUG.println(debug);
             DEBUG.print(message[idx], HEX);
+            DEBUG.println();
         } 
         int err = pd.begin_pill_sort(message);
         if(err==1){
             DEBUG.println("main.ino: Begin pill sort encountered error code 1. Oops.");
         }
     }
->>>>>>> Stashed changes
 }   
 
 void loop(){

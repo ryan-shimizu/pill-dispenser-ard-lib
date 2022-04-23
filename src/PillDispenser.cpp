@@ -80,12 +80,22 @@ int PillDispenser::begin_pill_sort(int message_data[]){
         }
     }
 
+    String dayReference[7] = {
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    };
+
     // begin parsing dosage select data
     int dos_select_byte1 = message_data[3];
     int dos_select_byte2 = message_data[4];
 
     uint8_t dos_select1[4];
-    uint8_t dos_select2[4];
+    uint8_t dos_select2[3];
 
     //dos_select_byte1
     for(uint8_t idx=0; idx<4; idx++){
@@ -97,10 +107,10 @@ int PillDispenser::begin_pill_sort(int message_data[]){
 
     // dos_select_byte2
     dos_select_byte2 = dos_select_byte2>>2; // dont care about lsb
-    for(uint8_t idx=1; idx<4; idx++){
+    for(uint8_t idx=0; idx<3; idx++){
         // looping 4 times bc dos_select_byte1 has data for 4 days
         int temp = dos_select_byte2>>(idx*2) & 0b11;
-        uint8_t rolling_idx = 3 - idx;
+        uint8_t rolling_idx = 2 - idx;
         dos_select2[rolling_idx] = uint8_t(temp+1);
     }
 
@@ -117,7 +127,7 @@ int PillDispenser::begin_pill_sort(int message_data[]){
                 // look at dos_select_byte2
                 dosage = dos_select2[idx-4];
             }
-            String debug = "PillDispenser.cpp: " + dayReference[idx] + "needs " + String(dosage) + " pills...";
+            String debug = "PillDispenser.cpp: " + dayReference[idx] + " needs " + String(dosage) + " pills...";
             DEBUG.println(debug);
             // get required pills from hopper
             _hop.transfer_pills(dosage);
@@ -128,9 +138,12 @@ int PillDispenser::begin_pill_sort(int message_data[]){
 
             // transfer from linear rail
             _lr.dispense_by_day(idx);
-            _speaker.play_tune();
+            
         }
     }
+
+    // done :)
+    _speaker.play_tune();
 }
 
 
