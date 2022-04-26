@@ -28,7 +28,8 @@ PillDispenser::PillDispenser(
               _lr(
                 flap_pin=flap_pin,
                 rail_dir_pin=rail_dir_pin,
-                rail_step_pin=rail_step_pin
+                rail_step_pin=rail_step_pin,
+                rail_limit_switch=rail_limit_switch
               ),
               _speaker(
                   speaker_pin=speaker_pin
