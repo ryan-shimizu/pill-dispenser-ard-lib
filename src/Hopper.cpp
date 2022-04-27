@@ -20,7 +20,8 @@ void Hopper::transfer_pills(uint8_t num){
      * through the IR beam and then stops.
      * Need help on this...
      *  Args:
-     *      num(uint8_t):       Number between 1-4, 
+     *      num(uint8_t):       Number between 1-4,
+     *                          when num == 0, treat as indefinite count
      *  Returns:
      *      None
      */
@@ -41,7 +42,7 @@ void Hopper::transfer_pills(uint8_t num){
     // NOTE: may be jittery depending on stepsize and overhead (test this)
     _hd.rotate_disk(200, true);
     while(!_ir.check_pill_count(num)){
-        delay(100);     // delete later?
+        delay(400);     // delete later?
         temp++;
         if(temp>=full_rev){
             if(g_pill_count==prev_count){
@@ -57,12 +58,15 @@ void Hopper::transfer_pills(uint8_t num){
             DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
         }
     }
-    delay(80);
+    delay(290);
     _hd.rotate_disk(0, true);
+
+    // wait for pills to drop
+    delay(500);
 
     // clear again for next call
     _ir.clear_count();
-    _ha.reset_arm();
+    //_ha.reset_arm();
     DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");
 }
 
@@ -79,8 +83,39 @@ void Hopper::set_funnel_size(uint8_t num){
     DEBUG.print("Hopper.cpp: Setting funnel size to ");
     DEBUG.print(num);
     DEBUG.println();
+    _ha.set_level(num);
 }
 
 void Hopper::reset_arm(){
     _ha.reset_arm();
+}
+
+void Hopper::flush_pills(){
+    DEBUG.println("Hopper.cpp: Attempting to flush pills... ");
+
+    // actuator calculations
+    int full_rev = STEP_PER_REV;
+    int temp = 0;
+    uint8_t prev_count = 0;
+    uint8_t actuator_level = 5;
+    _ha.curr_level = actuator_level;
+    long long unsigned int count = 0;
+
+    // NOTE: may be jittery depending on stepsize and overhead (test this)
+    _hd.rotate_disk(200, true);
+    while(count <= 5){
+        delay(400);
+        temp++;
+        if(temp>=full_rev){
+            temp = 0;
+            DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
+            count++;
+        }
+    }
+    delay(290);
+    _hd.rotate_disk(0, true);
+
+    // clear for next run
+    _ir.clear_count();
+    DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");   
 }

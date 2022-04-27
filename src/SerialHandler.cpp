@@ -39,6 +39,7 @@ int* SerialHandler::receive_message(){
     // uint8_t byte_idx = 0;       // for termination counting, uncomment if we dont use lazy method
     delay(50);      // in case serial message is being transmitted at startup, may not need
     static int return_array[8];
+    // this->_flush_buffer();
 
     while(true){
         if(NEXTION.available() > 7){        // all 8 bytes ready
@@ -49,7 +50,7 @@ int* SerialHandler::receive_message(){
                 DEBUG.println(bufferByte, HEX);
                 
                 // unable to interpret data in the buffer so just flush out whatever is in there and start again.
-                this->_flush_buffer();
+                this->flush_buffer();
                 continue;
             }
 
@@ -74,9 +75,44 @@ int* SerialHandler::receive_message(){
                     return_array[5] = NEXTION.read();  // end byte
                     return_array[6] = NEXTION.read();  // end byte
                     return_array[7] = NEXTION.read();  // end byte
+                    this->flush_buffer();
                     return return_array;       // TODO: double check return type
                     // break;
                 // place any other command bytes cases here
+                case 0x21:
+                    DEBUG.println("SerialHandler.cpp: Found begin flush byte.");
+                    return_array[1] = bufferByte;
+                    
+                    // read next 6 bytes, lazy method
+                    return_array[2] = NEXTION.read();  // day select byte
+                    return_array[3] = NEXTION.read();  // dosage select byte 1
+                    return_array[4] = NEXTION.read();  // dosage select byte 2
+                    DEBUG.println("SerialHandler.cpp: Data bytes read and saved to buffer.");
+                    
+                    // TODO: implement sanity check to make sure end bytes are 0xFF
+                    return_array[5] = NEXTION.read();  // end byte
+                    return_array[6] = NEXTION.read();  // end byte
+                    return_array[7] = NEXTION.read();  // end byte
+                    this->flush_buffer();
+                    return return_array;       // TODO: double check return type
+                
+                case 0x32:
+                    DEBUG.println("SerialHandler.cpp: Found end flush byte.");
+                    return_array[1] = bufferByte;
+                    
+                    // read next 6 bytes, lazy method
+                    return_array[2] = NEXTION.read();  // day select byte
+                    return_array[3] = NEXTION.read();  // dosage select byte 1
+                    return_array[4] = NEXTION.read();  // dosage select byte 2
+                    DEBUG.println("SerialHandler.cpp: Data bytes read and saved to buffer.");
+                    
+                    // TODO: implement sanity check to make sure end bytes are 0xFF
+                    return_array[5] = NEXTION.read();  // end byte
+                    return_array[6] = NEXTION.read();  // end byte
+                    return_array[7] = NEXTION.read();  // end byte
+                    this->flush_buffer();
+                    return return_array;       // TODO: double check return type
+
                 
                 // unknown command byte found
                 default:
@@ -87,7 +123,7 @@ int* SerialHandler::receive_message(){
             }
             if(invalidByteFound){
                 // unable to interpret data in the buffer so just flush out whatever is in there and start again.
-                this->_flush_buffer();
+                this->flush_buffer();
                 invalidByteFound = false;
                 continue;
             }
@@ -100,7 +136,7 @@ int* SerialHandler::receive_message(){
     }
 }
 
-void SerialHandler::_flush_buffer(){
+void SerialHandler::flush_buffer(){
     /*
      * Helper function to flush buffer in case of
      * uninterpretable message.
@@ -113,4 +149,8 @@ void SerialHandler::_flush_buffer(){
         NEXTION.read();
     }
     DEBUG.println("SerialHandler.cpp: Successfully flushed out buffer.");
+}
+
+bool SerialHandler::is_empty(){
+    return (NEXTION.available() == 0);
 }

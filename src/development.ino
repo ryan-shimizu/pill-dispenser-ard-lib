@@ -19,8 +19,6 @@ void setup(){
     // lrf.openServo();
     // lrf.closeServo();
 
-    int* message;
-    SerialHandler sh;
     PillDispenser pd(
             //rail_step_pin
             10,
@@ -55,19 +53,7 @@ void setup(){
             //actuator_limit_switch
             2
     );
-    while(true){
-        message = sh.receive_message();
-        for(uint8_t idx = 0; idx<8; idx++){
-            String debug = "main.ino: Serial message index " + String(idx) + " with data ";
-            DEBUG.println(debug);
-            DEBUG.print(message[idx], HEX);
-            DEBUG.println();
-        } 
-        int err = pd.begin_pill_sort(message);
-        if(err==1){
-            DEBUG.println("main.ino: Begin pill sort encountered error code 1. Oops.");
-        }
-    }
+    pd.dispense_pills();
 }   
 
 void loop(){
