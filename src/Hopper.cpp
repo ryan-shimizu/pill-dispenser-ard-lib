@@ -58,7 +58,7 @@ void Hopper::transfer_pills(uint8_t num){
             DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
         }
     }
-    delay(200);
+    delay(290);
     _hd.rotate_disk(0, true);
 
     // wait for pills to drop
@@ -112,7 +112,7 @@ void Hopper::flush_pills(){
             count++;
         }
     }
-    delay(200);
+    delay(290);
     _hd.rotate_disk(0, true);
 
     // clear for next run
