@@ -33,7 +33,8 @@ PillDispenser::PillDispenser(
               ),
               _speaker(
                   speaker_pin=speaker_pin
-              )
+              ),
+              _sh()
 {
     // fill values to 0
     for(uint8_t idx; idx<NUM_DAYS; idx++){
@@ -57,10 +58,7 @@ int PillDispenser::begin_pill_sort(int message_data[]){
 
     
     // verify that header is as expected
-    if(message_data[0] != 0x23){
-        // header byte is wrong
-        return 1;
-    }
+
 
     // begin parsing day select data
     int day_select_byte = message_data[2]>>1;   // dont care about last bit
@@ -148,3 +146,57 @@ int PillDispenser::begin_pill_sort(int message_data[]){
 }
 
 
+int PillDispenser::dispense_pills(){
+    _sh.flush_buffer();
+    while (true)
+    {
+        _message = _sh.receive_message();
+        for(uint8_t idx = 0; idx<8; idx++){
+            String debug = "PillDispenser.cpp: Serial message index " + String(idx) + " with data ";
+            DEBUG.println(debug);
+            DEBUG.print(_message[idx], HEX);
+            DEBUG.println();
+        } 
+        int err = 0;
+        int header_byte = _message[1];
+        if(header_byte == 0x12){
+            err = this->begin_pill_sort(_message);
+            _sh.flush_buffer();
+        }
+        else if (header_byte == 0x21)
+        {
+            // begin flush
+            this->begin_flush();
+        }        
+        else{
+            DEBUG.println("PillDispenser.cpp: Begin pill sort encountered error. Oops.");
+        }
+    }   
+}
+
+int PillDispenser::begin_flush(){
+    // runs flush code until we receive end flush
+    DEBUG.println("PillDispenser.cpp: Beginning flush...");
+    int* message;
+    _hop.set_funnel_size(uint8_t(5));
+    while(true){
+        // run disk code but ignore pill count
+        if(_sh.is_empty()){
+            _hop.flush_pills();
+        }
+        else{
+            // something in buffer, is it end flush?
+            DEBUG.println("Looking for end flush...");
+            message = _sh.receive_message();
+            int command_byte = message[1];
+            if(command_byte == 0x32){
+                // done
+                DEBUG.println("PillDispenser.cpp: End flush byte received.");
+                _hop.reset_arm();
+                return 0;
+            }
+            // keep goin...
+        }
+    }
+
+}

@@ -9,6 +9,7 @@
 #include "LinearRail.h"
 #include "Hopper.h"
 #include "Speaker.h"
+#include "SerialHandler.h"
 
 class PillDispenser{
     public:
@@ -29,17 +30,23 @@ class PillDispenser{
 
         // functions
         int begin_pill_sort(int message_data[]);
+        int begin_flush();
+        int dispense_pills();
 
     private:
         // internal components
         bool _days_selected[7];
         uint8_t _dosage_day_selection [7];
         bool _data_populated;
+        int* _message;
 
         // physical components
         LinearRail _lr;
         Hopper _hop;
         Speaker _speaker;
+
+        //SerialHandler
+        SerialHandler _sh;
 
 };
 

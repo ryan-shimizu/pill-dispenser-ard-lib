@@ -16,6 +16,8 @@ class HopperActuator{
         // functions
         void set_level(uint8_t level);
         void reset_arm();
+
+        uint8_t curr_level;
     private:
         // functions 
         void _move_stepper(long long int steps, bool dir);
@@ -25,7 +27,7 @@ class HopperActuator{
         uint8_t _actuator_dir_pin;
 
         // data members
-        uint8_t curr_level;
+        
 };
 
 #endif

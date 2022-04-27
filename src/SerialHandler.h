@@ -13,9 +13,11 @@ class SerialHandler{
 
         // functions
         int* receive_message();
+        bool is_empty();
+        void flush_buffer();
     private:
         // helper functions
-        void _flush_buffer();
+        
 };
 
 #endif
