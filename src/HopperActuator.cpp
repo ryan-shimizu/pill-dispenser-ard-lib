@@ -6,18 +6,21 @@ long long int LEVELSTEP = 2000;
 HopperActuator::HopperActuator(uint8_t actuator_pin, uint8_t actuator_dir_pin){
     this->_actuator_pin = actuator_pin;
     this->_actuator_dir_pin = actuator_dir_pin;
-    this->curr_level = 0;
+    this->curr_level = 5;       // assume worst case on startup
     pinMode(actuator_dir_pin, OUTPUT);
     pinMode(actuator_pin, OUTPUT);
     // TODO: setup direction and rest of this constructor
+    this->reset_arm();
+    curr_level = 0;
     DEBUG.println("HopperActuator.cpp: HopperActuator object initialized.");
 }
 
 void HopperActuator::reset_arm(){
     // Resets arm to default state
     DEBUG.println("HopperActuator.cpp: Resetting arm...");
-    long long int RESETSTEPS = LEVELSTEP*5;
+    long long int RESETSTEPS = LEVELSTEP*curr_level;
     this->_move_stepper(RESETSTEPS, true);
+    curr_level = 0;
 }
 
 void HopperActuator::set_level(uint8_t level){

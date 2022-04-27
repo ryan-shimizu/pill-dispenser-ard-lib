@@ -3,7 +3,7 @@
 #define DEBUG Serial
 
 const int FLAPOPENTIME = 500;
-const int DAYSTEP = 170;
+const int DAYSTEP = 160;
 const int STEPSIZE = 200;
 
 LinearRail::LinearRail(uint8_t flap_pin, uint8_t rail_dir_pin, uint8_t rail_step_pin, uint8_t rail_limit_switch)

@@ -13,8 +13,9 @@ void setup(){
     // Serial.begin(9600);
     // LinearRail lr(uint8_t(6), uint8_t(11), uint8_t(10), uint8_t(3));
     // lr.dispense_by_day(3);
-    
+    // delay(400);
     // LinearRailFlap lrf(uint8_t(6));
+    // delay(400);
     // lrf.openServo();
     // lrf.closeServo();
 
