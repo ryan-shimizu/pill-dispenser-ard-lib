@@ -42,7 +42,7 @@ void Hopper::transfer_pills(uint8_t num){
     // NOTE: may be jittery depending on stepsize and overhead (test this)
     _hd.rotate_disk(200, true);
     while(!_ir.check_pill_count(num)){
-        delay(100);     // delete later?
+        delay(400);     // delete later?
         temp++;
         if(temp>=full_rev){
             if(g_pill_count==prev_count){
@@ -58,12 +58,15 @@ void Hopper::transfer_pills(uint8_t num){
             DEBUG.println("Hopper.cpp: Disc has completed one full revolution.");
         }
     }
-    delay(80);
+    delay(200);
     _hd.rotate_disk(0, true);
+
+    // wait for pills to drop
+    delay(500);
 
     // clear again for next call
     _ir.clear_count();
-    _ha.reset_arm();
+    //_ha.reset_arm();
     DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");
 }
 
@@ -101,7 +104,7 @@ void Hopper::flush_pills(){
     // NOTE: may be jittery depending on stepsize and overhead (test this)
     _hd.rotate_disk(200, true);
     while(count <= 5){
-        delay(100);
+        delay(400);
         temp++;
         if(temp>=full_rev){
             temp = 0;
@@ -109,7 +112,7 @@ void Hopper::flush_pills(){
             count++;
         }
     }
-    delay(80);
+    delay(200);
     _hd.rotate_disk(0, true);
 
     // clear for next run

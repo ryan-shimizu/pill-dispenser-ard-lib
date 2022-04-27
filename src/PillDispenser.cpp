@@ -140,6 +140,7 @@ int PillDispenser::begin_pill_sort(int message_data[]){
             
         }
     }
+    _hop.reset_arm();
 
     // done :)
     _speaker.play_tune();

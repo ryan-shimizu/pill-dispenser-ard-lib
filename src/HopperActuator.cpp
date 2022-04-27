@@ -33,13 +33,20 @@ void HopperActuator::set_level(uint8_t level){
      *      None
      */
 
+    int lvl;
+    if(level>5){
+        lvl=5;
+    }
+    else{
+        lvl=level;
+    }
     DEBUG.print("HopperActuator.cpp: Setting level to ");
-    DEBUG.print(level);
-    long long int delta = int(level) - int(curr_level);
+    DEBUG.print(lvl);
+    long long int delta = int(lvl) - int(curr_level);
     // use delta to determine direction to move stepper
     bool direction = delta<=0 ? true : false;
     this->_move_stepper(delta*LEVELSTEP, direction);
-    curr_level = level;
+    curr_level = lvl;
 }
 
 void HopperActuator::_move_stepper(long long int steps, bool dir){
