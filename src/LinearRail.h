@@ -16,6 +16,8 @@ class LinearRail{
 
         // functions
         void dispense_by_day(uint8_t day);
+        void open_flap();
+        void close_flap();
 
     private:
         // helper functions

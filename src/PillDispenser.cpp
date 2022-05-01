@@ -194,6 +194,9 @@ int PillDispenser::begin_flush(){
                 // done
                 DEBUG.println("PillDispenser.cpp: End flush byte received.");
                 _hop.reset_arm();
+                _lr.open_flap();
+                delay(500);
+                _lr.close_flap();
                 return 0;
             }
             // keep goin...

@@ -130,3 +130,11 @@ void LinearRail::_move_stepper_pwm(){
     analogWrite(_rail_step_pin, 0);
 
 }
+
+void LinearRail::open_flap(){
+    _lr_flap.openServo();
+}
+
+void LinearRail::close_flap(){
+    _lr_flap.closeServo();
+}
