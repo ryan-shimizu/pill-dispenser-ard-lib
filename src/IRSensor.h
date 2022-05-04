@@ -14,7 +14,7 @@ class IRSensor{
 
         // functions
         bool check_pill_count(uint8_t count);
-        void clear_count();
+        void clear_count(uint8_t count);
     private:
         // pinouts
         uint8_t _ir_pin;

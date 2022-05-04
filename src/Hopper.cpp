@@ -31,7 +31,20 @@ void Hopper::transfer_pills(uint8_t num){
     DEBUG.println();
 
     // clearing in case accidental increment before function call
-    _ir.clear_count();
+    //_ir.clear_count(num);
+
+    // fk that ^
+    if(_ir.check_pill_count(1) && num==1){
+        // we got something in limbo...edge case!
+        // get the stuck pill out and end
+        DEBUG.println("Hopper.cpp: Edge case encountered. 1 pill selected when 1 has already passed thru beam.");
+        DEBUG.println("Hopper.cpp: Attempting to flush the one pill out of the system in case it is stuck in limbo...");
+        _hd.rotate_disk(200, true);
+        delay(100);     // test this
+        _hd.rotate_disk(0, true);
+        _ir.clear_count(1);
+        return;
+    }
 
     // actuator calculations
     int full_rev = STEP_PER_REV;
@@ -39,7 +52,6 @@ void Hopper::transfer_pills(uint8_t num){
     uint8_t actuator_level = 0;         // start at level 0
     uint8_t prev_count = 0;
 
-    // NOTE: may be jittery depending on stepsize and overhead (test this)
     _hd.rotate_disk(200, true);
     while(!_ir.check_pill_count(num)){
         delay(400);     // delete later?
@@ -65,7 +77,7 @@ void Hopper::transfer_pills(uint8_t num){
     delay(500);
 
     // clear again for next call
-    _ir.clear_count();
+    _ir.clear_count(num);
     //_ha.reset_arm();
     DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");
 }
@@ -104,7 +116,7 @@ void Hopper::flush_pills(){
     // NOTE: may be jittery depending on stepsize and overhead (test this)
     _hd.rotate_disk(200, true);
     while(count <= 5){
-        delay(400);
+        delay(100);
         temp++;
         if(temp>=full_rev){
             temp = 0;
@@ -116,6 +128,6 @@ void Hopper::flush_pills(){
     _hd.rotate_disk(0, true);
 
     // clear for next run
-    _ir.clear_count();
+    _ir.clear_count(99);
     DEBUG.println("Hopper.cpp: Done transferring pills to Linear rail.");   
 }

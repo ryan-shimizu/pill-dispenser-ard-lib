@@ -38,7 +38,7 @@ bool IRSensor::check_pill_count(uint8_t count){
     return(g_pill_count >= count);
 }
 
-void IRSensor::clear_count(){
+void IRSensor::clear_count(uint8_t count){
     /*
      * Function that clears global pill count.
      *  Args:
@@ -46,6 +46,11 @@ void IRSensor::clear_count(){
      *  Returns:
      *      None 
      */
-    g_pill_count = 0;
+    if(int(g_pill_count) - int(count) < 0){
+        g_pill_count = 0;
+    }
+    else{
+        g_pill_count -= count;
+    }
 }
 
