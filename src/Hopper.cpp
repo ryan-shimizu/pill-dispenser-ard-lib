@@ -112,7 +112,7 @@ void Hopper::flush_pills(){
             count++;
         }
     }
-    delay(290);
+    //delay(10);
     _hd.rotate_disk(0, true);
 
     // clear for next run

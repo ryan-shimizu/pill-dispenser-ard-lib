@@ -1,7 +1,0 @@
-{
-    "configuration": "cpu=atmega2560",
-    "board": "arduino:avr:mega",
-    "sketch": "development.ino",
-    "programmer": "arduino:avrisp",
-    "port": "COM12"
-}
